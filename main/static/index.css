@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins&family=Righteous&display=swap');
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #1e1e1e;
+    color: #bbb;
+    margin: 0;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    font-family: "Inter", sans-serif;
+}
+
+header {
+    height: 69px;
+}
+
+footer {
+    height: 140px;
+    align-items: center;
+}
+
+header, footer {
+    background-color: #292929;
+    display: flex;
+    justify-content: space-between;
+}
+
+header img {
+    display: block;
+    width: 113px;
+    height: 37px;
+    margin-top: 10px;
+    margin-left: 36.91px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    color: #b1dd40;
+    font-size: 24px;
+    text-decoration: none;
+    margin-right: 30px;
+    font-weight: 600;
+}
+
+footer nav a:not(:last-child) {
+    margin-right: 30px;
+}
+
+footer nav a {
+    color: #bbb;
+    font-size: 18px;text-decoration: none;
+}
+
+footer nav {
+    justify-content: center;
+    width: 370px;
+    position: absolute;
+    left: calc((100% - 370px) / 2);
+}
+
+footer div {
+    line-height: 1.5;
+    margin-left: 30px;
+}
+
+footer div p {
+    margin: 0;
+}
+
+footer > p {
+    margin-right: 30px;
+    text-align: right;
+}

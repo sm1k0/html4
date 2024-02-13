@@ -1,0 +1,171 @@
+body {
+    scroll-behavior: smooth;
+}
+
+main {
+    height: 2600px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+section {
+    height: 33%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    color: #B1DD40;
+    font-size: 100px;
+    font-family: "Righteous", sans-serif;
+}
+
+.text-top {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: top;
+    margin-top: -60px;
+}
+
+.text-bottom {
+    width: 33%;
+    height: 100%;
+    display: flex;
+    align-items: end;
+}
+
+.svg-image {
+    height: 100%;
+    width: 33%;
+}
+
+@media (max-width:960px) {
+    .svg-image {
+        display: none;
+    }
+}
+
+.possibilities {
+    text-align: center;
+    font-family: "Righteous", sans-serif;
+    height: 100%;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    height: 75px;
+    width: 150px;
+    background-color: #B1DD40;
+    margin: 50px;
+    border: 1px solid #B1DD40;
+    border-radius: 20px;
+    font-family: "Righteous", sans-serif;
+    color: black;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #1e1e1e;
+}
+
+.btn:hover a {
+    color: #B1DD40;
+}
+
+.get-in-form {
+    height: 451px;
+    width: 250px;
+    background-color: #313131;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.get-in-form h2 {
+    color: #B1DD40;
+    font-family: "Righteous", sans-serif;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.in-touch {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+    width: 900px;
+}
+
+input[type=text], input[type=email], textarea {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+label {
+    color: white;
+    font-size: small;
+    margin-top: 5px;
+}
+
+.input-name {
+    width: 115px;
+    height: 30px;
+}
+
+.input-email {
+    width: calc(100% - 6px);
+    height: 30px;
+}
+
+textarea {
+    width: calc(100% - 6px);
+    min-height: 158px;
+    resize: none;
+}
+
+input[type=submit] {
+    height: 50px;
+    width: calc(100%);
+    background-color: #B1DD40;
+    color: black;
+    border-radius: 15px;
+    font-size: 20px;
+    border: none;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.fio {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.map-and-form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+input, textarea {
+    margin-top: 5px;
+    border: none;
+    background-color: #1e1e1e;
+    color: white;
+}

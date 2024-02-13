@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+  .row {
+    display: flex;
+    justify-content: space-around;
+    margin-top:50px;
+  }
+  .column{
+    border:1px solid #B1DD40;
+    width: 210px;
+    height: 270px;
+    align-items: center;
+    text-align: center;
+    margin-left:50px;
+    margin-right:50px;
+    border-radius: 20px;
+    background-color: #3A3A3A;
+  }
+  .content{
+    background-color: #292929;
+    margin: 5px;
+    width: 200px;
+    height: 260px;
+    border-radius: 20px;
+  }
+  h3{
+    margin: 0;
+  }
+  .btn{
+    position: relative;
+    left: 40px;
+    width: 100px;
+    height: 25px;
+    background-color: #B1DD40;
+    border: 1px solid #B1DD40;
+    border-radius: 20px;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }
+  .btn2{
+    width: 150px;
+    height: 35px;
+    background-color: #B1DD40;
+    border: 1px solid #B1DD40;
+    border-radius: 20px;
+    text-align: center;
+    padding-top:10px;
+    margin-left: 20px;
+    margin-top:50px;
+    transition: 0.2s
+  }
+  .btn2:hover{
+    background-color: #1e1e1e;
+  }
+  .btn2:hover a{
+    color:#B1DD40;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="btn2">
+    <a href="{% url 'create_voting'%}">Create your voting</a>
+  </div>
+  <div>
+    {% for voting in votings%}
+    {% if forloop.counter|add:"3"|divisibleby:4%}
+    <div class="row">
+      {% endif %}
+      <div class="column">
+        <div class="content">
+          <h3 style="padding-top: 10px;">{{voting.title}}</h3>
+          <p style="max-width: 190px; height: 150px;word-wrap: break-word;padding: 5px;">{{voting.text}}</p>
+          <button class="btn"><a href="/voting/{{voting.id}}">Show voting</a></button>
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:4 or forloop.last %}
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}

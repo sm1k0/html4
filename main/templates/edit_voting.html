@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static%}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'edit_voting.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="flex-container">
+    <div class="container">
+        <h2>Create voting</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <div><label for="title">Title</label><br><input type="text" name="title" value="{{voting.title}}"></div>
+                <div><label for="text">Text</label><br><textarea id="text" name="text" rows="4" cols="50">{{voting.text}}</textarea></div>
+                <div><label for="type">Choose type: </label>
+                    <select name="type" id="type">
+                        {% if voting.type == 1 %}
+                        <option value="1">One choice</option>
+                        <option value="2">Many choice</option>
+                        {% else %}
+                        <option value="2">Many choice</option>
+                        <option value="1">One choice</option>
+                        {% endif %}
+                    </select></div>
+                <div id="Options">
+                    <p>Options:</p>
+                    {% for i in options%}
+                    <div id="div_{{forloop.counter}}" class="option"><input type="text" name="options" value="{{i}}">
+                        <a id="{{forloop.counter}}" onclick="remove_item({{forloop.counter}})" style="margin-left: 5px;">❌</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="btn" type="button" onclick="add_input()">Add option</button><br>
+                <div style="display: flex;justify-content: right;"><input class="send-btn" type="submit" value="Submit"></div>
+            </div>
+        </form>
+    </div>
+</div>
+    <script>
+        let cnt = {{voting.options|length|add:"1"}};
+        function add_input(){
+          var div = document.createElement("div");
+          var a = document.createElement("a");
+          var input = document.createElement("input");
+          div.id = 'div_'+cnt.toString();
+          input.type = "text";
+          input.name = 'options';
+          div.className = "option";
+          a.style = "margin-left:10px";
+          a.innerHTML = "❌";
+          a.id = cnt;
+          a.onclick = function(){
+              const element = document.getElementById('div_'+a.id);
+              element.remove();
+          };
+          cnt++;
+          var element = document.getElementById("Options");
+          div.appendChild(input);
+          div.appendChild(a);
+          element.appendChild(div);
+            }
+        function remove_item(id){
+            const element = document.getElementById('div_'+id);
+            element.remove();
+            }
+     </script>
+{% endblock %}

@@ -1,0 +1,482 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load index %}
+{% block extra_css %}
+<style type="text/css">
+a{
+  text-decoration:none;
+}
+footer {
+ position:relative;
+ margin-top:100px;
+ }
+ .error{
+  color:red;
+ }
+ .success{
+  color: #b1dd40;
+ }
+main{
+ display:flex;
+}
+ #voting {
+ display:flex;
+ flex-direction: column;
+ min-width: 506px;
+ min-height: 891px;
+ margin: auto;
+ margin-top:50px;
+ background: #3A3A3A;
+ }
+
+ #mainContent {
+ position: relative;
+ width: 457px;
+ height: 496px;
+ left: 25px;
+ top: 10px;
+ background: #292929;
+ display:flex;
+ flex-direction: column;
+ }
+
+ #boxComment{
+ position: relative;
+ width: 457px;
+ height: 65px;
+ left: 25px;
+ top: 30px;
+ background: #292929;
+ border-radius: 11px;
+ color: #FFFFFF;
+ }
+
+ #rating{
+ position: relative;
+ max-width: 457px;
+ height: 52px;
+ left: 25px;
+ top: 25px;
+ background: #292929;
+ display:flex;
+ flex-direction: row;
+ justify-content: space-around;
+ padding:5px;
+ }
+
+ #tittleVoting{
+ width: 41px;
+ height: 25px;
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 20px;
+ line-height: 25px;
+ color: #FFFFFF;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
+ }
+
+ #options{
+ display:flex;
+ flex-direction: column;
+ }
+
+ .labelRadio{
+ position: absolute;
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 15px;
+ line-height: 19px;
+ color: #FFFFFF;
+ }
+
+ #voteText{
+ position: relative;
+ left:31px;
+ width: 396px;
+ height: 230px;
+ font-family: 'Poppins';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 15px;
+ line-height: 22px;
+ color: #FFFFFF;
+ word-wrap: break-word;
+ }
+
+ .percent{
+ position: relative;
+ width: 14px;
+ height: 12px;
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 10px;
+ line-height: 12px;
+ color: #FFFFFF;
+ white-space: pre;
+ margin-top:3px;
+ }
+
+ .option{
+ display: flex;
+ display-direction: row;
+ justify-content:space-around;
+ }
+
+ .buttonSubmitVote {
+ min-width: 50px;
+ width: 175px;
+ display:block;
+ margin-top:15px;
+ margin-left:27.5%;
+ text-align: center;
+ font-family: inherit;
+ appearance: none;
+ border: 0;
+ border-radius: 5px;
+ background: #3A3A3A;
+ color: #fff;
+ padding: 8px 16px;
+ cursor: pointer;
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 17.5px;
+ }
+
+ .buttonSubmitVote:hover {
+ background: #AAAAAA;
+ }
+
+ .buttonSubmitVote:focus {
+ outline: none;
+ box-shadow: 0 0 0 4px #cbd6ee;
+ }
+
+ .comment{
+ position: relative;
+ width: 457px;
+ height: 44px;
+ left: 25px;
+ top: 30px;
+ margin-top:10px;
+ background: #292929;
+ border-radius: 11px;
+ display:flex;
+ flex-direction:row;
+ padding:5px;
+ }
+
+ .rateComment{
+ margin-top:15px;
+ margin-left:160px;
+ }
+
+ .commentText{
+ width: 153px;
+ height: 17px;
+
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 14px;
+ line-height: 17px;
+
+ color: #FFFFFF;
+ }
+
+ .commentUserName{
+ width: 46px;
+ height: 12px;
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 10px;
+ line-height: 12px;
+ color: #8D8D8D;
+ margin:10px;
+ margin-top:15px;
+ }
+
+ .commentButton{
+ background: url("/static/comment.svg") no-repeat;
+ background-size:100%;
+ border:none;
+ width:50px;
+ height:50px;
+ }
+ progress{
+  background-color: #3a3a3a;
+ }
+  .buttonEdit {
+ min-width: 50px;
+ width: 175px;
+ display:block;
+ margin-top:15px;
+ text-align: center;
+ font-family: inherit;
+ appearance: none;
+ border: 0;
+ border-radius: 5px;
+ background: #b1dd40;
+ color: #fff;
+ padding: 8px 16px;
+ cursor: pointer;
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 17.5px;
+ margin-bottom: 20px;
+ margin-right:20px;
+ }
+
+  .buttonDelete {
+ margin-left:20px;
+ min-width: 50px;
+ width: 175px;
+ display:block;
+ margin-top:15px;
+ text-align: center;
+ font-family: inherit;
+ appearance: none;
+ border: 0;
+ border-radius: 5px;
+ background: red;
+ color: #fff;
+ padding: 8px 16px;
+ cursor: pointer;
+ font-family: 'Righteous';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 17.5px;
+ margin-bottom: 20px;
+ }
+
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+<div name="voting" id="voting">
+  <div name="mainContent" id="mainContent">
+    <h3 name="Tittle" id="tittleVoting">
+      {{ voting.title }}
+    </h3>
+    <p name="voteContent" id="voteText">
+      {{ voting.text}}
+    </p>
+    <form action="/add_vote/{{voting.id}}" method="post">
+      {% csrf_token %}
+      <div name="options" id="options">
+        {% for option in options %}
+        <div class="option">
+          <div>
+            <input type="{% if voting.type == 1%}radio{% else %}checkbox{% endif %}" value="{{ forloop.counter }}" name="option" class="radioBtn">
+            <label class="labelRadio">{{ option }}</label>
+          </div>
+          <div style="display:flex;vertical-align:center;">
+            <progress max="100" value="{{ content|index:forloop.counter }}"></progress>
+            <label class="percent">  {{ content|index:forloop.counter }}%</label>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <input class="buttonSubmitVote" type="submit" value="Submit">
+      </form>
+      {% if creater %}
+      <div style="display:flex;justify-content:center;">
+        <div>
+          <a href="/edit_voting/{{voting.id}}"><button class="buttonEdit">Edit</button></a>
+        </div>
+        <div>
+          <a href="/delete_voting/{{voting.id}}"><button class="buttonDelete">Delete</button></a>
+        </div>
+      </div>
+      {% endif %}
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li
+        {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+  </div>
+  <form action="/add_comment/{{voting.id}}" method="post">
+    {% csrf_token %}
+    <div name="rating" id="rating">
+      <input type="submit" class="commentButton" name="comment" onclick="" value="">
+      <img src="{% static 'like.svg' %}" name="like">
+      <img src="{% static 'repost.svg' %}" name="repost">
+    </div>
+    <input name="comment" type="text" placeholder="Insert your comment here..." id="boxComment">
+  </form>
+  {% for comment in comments %}
+  <div class="comment">
+    <img src="{% static 'avatar.svg' %}" name="avatar">
+    <p name="nameUser" class="commentUserName">{{comment.user.username}}</p>
+    <p name="commentContent" class="commentText">{{comment.text}}</p>
+    <div name="rateComment" class="rateComment">
+      <input type="image" src="{% static 'likeComment.svg' %}" name="likeComment" onclick="">
+      <input type="image" src="{% static 'reportComment.svg' %}" name="reportComment" onclick="">
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+{% block extra_js %}
+{% load static %}
+
+<!--    <script>-->
+<!--        var voting = new Object();-->
+<!--        voting["tittle"] = "Tittle";-->
+<!--        voting["text"] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum feugiat, libero a porttitor facilisis, felis neque elementum tortor, non blandit nibh nisl eget sapien. Donec odio ligula, dignissim nec semper eu, cursus non enim. Donec tortor turpis, lacinia dignissim sagittis sed, ultricies ac turpis. In porttitor mattis mattis. Mauris id elementum ex. Phasellus vel mi est. In ut felis orci. Sed libero erat, cursus et malesuada a, pellentesque id tortor."-->
+<!--        voting["type"] = 1-->
+<!--        voting["options"] = [-->
+<!--          {-->
+<!--            "text":"First",-->
+<!--          },-->
+<!--          {-->
+<!--            "text":"Second",-->
+<!--          },-->
+<!--          {-->
+<!--            "text":"Third",-->
+<!--          },-->
+<!--          {-->
+<!--            "text":"Fourth",-->
+<!--          },-->
+<!--        ];-->
+
+<!--        var types = ["radio","checkbox"]-->
+
+<!--        var tittle = document.createElement("h3");-->
+<!--        tittle.id = "tittleVoting";-->
+<!--        var tittleText = document.createTextNode(voting["tittle"]);-->
+<!--        tittle.appendChild(tittleText);-->
+
+<!--        var voteText = document.createElement("p");-->
+<!--        voteText.id = "voteText";-->
+<!--        voteText.name = "voteText";-->
+<!--        var voteTextContent = document.createTextNode(voting["text"]);-->
+<!--        voteText.appendChild(voteTextContent);-->
+
+<!--        document.getElementById("mainContent").appendChild(tittle);-->
+<!--        document.getElementById("mainContent").appendChild(voteText);-->
+
+<!--        var options = document.createElement("div");-->
+<!--        options.id = "options";-->
+
+
+<!--        for (let i = 0; i < voting["options"].length;i++){-->
+<!--            var option = document.createElement("div");-->
+<!--            option.classList.add('option');-->
+
+
+<!--            var optionDiv = document.createElement("div");-->
+
+<!--            var radioBtn = document.createElement("input");-->
+<!--            radioBtn.type = types[voting['type']-1];-->
+<!--            radioBtn.id = "Choice" + String(i+1);-->
+<!--            radioBtn.setAttribute('value', voting["options"][i]);-->
+<!--            radioBtn.setAttribute('name', 'options');-->
+<!--            radioBtn.classList.add('radioBtn');-->
+
+<!--            var labelForRadio = document.createElement("label");-->
+<!--            var voteTextContent = document.createTextNode(voting["options"][i]);-->
+<!--            labelForRadio.setAttribute('for', radioBtn.id);-->
+<!--            labelForRadio.classList.add('labelRadio');-->
+<!--            labelForRadio.appendChild(voteTextContent);-->
+
+<!--            optionDiv.appendChild(radioBtn);-->
+<!--            optionDiv.appendChild(labelForRadio);-->
+
+
+<!--            var progressDiv = document.createElement("div");-->
+
+<!--            var progressBar = document.createElement("progress");-->
+<!--            progressBar.setAttribute('max', "100");-->
+<!--            progressBar.setAttribute('value', "0");-->
+<!--            progressBar.id = "progressChoice" + String(i+1);-->
+
+<!--            var progressLabel = document.createElement("label");-->
+<!--            var progressLabelContent = document.createTextNode("0%");-->
+<!--            progressBar.setAttribute('for', progressBar.Id);-->
+<!--            progressLabel.classList.add('percent');-->
+<!--            progressLabel.appendChild(progressLabelContent);-->
+
+<!--            progressDiv.appendChild(progressBar);-->
+<!--            progressDiv.appendChild(progressLabel);-->
+
+<!--            option.appendChild(optionDiv);-->
+<!--            option.appendChild(progressDiv);-->
+
+<!--            options.appendChild(option)-->
+<!--        }-->
+
+<!--        console.log(options)-->
+<!--        document.getElementById("mainContent").appendChild(options);-->
+
+<!--        var btnSubmit = document.createElement("button");-->
+<!--        btnSubmit.classList.add("buttonSubmitVote")-->
+<!--        var btnSubmitContent = document.createTextNode("Submit");-->
+<!--        btnSubmit.append(btnSubmitContent);-->
+
+<!--        document.getElementById("mainContent").appendChild(btnSubmit);-->
+
+<!--        function commentFunc(){-->
+<!--            var comment = document.createElement("div");-->
+<!--            comment.classList.add("comment");-->
+<!--            var avatarCommentUser = document.createElement("img");-->
+<!--            avatarCommentUser.setAttribute('src',"{% static 'avatar.svg' %}");-->
+<!--            comment.appendChild(avatarCommentUser);-->
+<!--            var username = document.createElement("p");-->
+<!--            username.id = "commentUserName";-->
+<!--            var usernameText = document.createTextNode("Test-user");-->
+<!--            username.appendChild(usernameText);-->
+<!--            var commentText = document.createElement("p");-->
+<!--            var commentTextContent =document.createTextNode(document.getElementById("boxComment").value)-->
+<!--            commentText.id = "commentText"-->
+<!--            commentText.appendChild(commentTextContent)-->
+<!--            comment.appendChild(username)-->
+<!--            comment.appendChild(commentText)-->
+
+<!--            var rateComment = document.createElement("div")-->
+<!--            rateComment.id = "rateComment"-->
+<!--            var likeComment = document.createElement("input")-->
+<!--            likeComment.setAttribute("type","image")-->
+<!--            likeComment.setAttribute("src","{% static 'likeComment.svg' %}")-->
+<!--            likeComment.setAttribute("onclick","")-->
+<!--            var reportComment = document.createElement("input")-->
+<!--            reportComment.setAttribute("type","image")-->
+<!--            reportComment.setAttribute("src","{% static 'reportComment.svg' %}")-->
+<!--            reportComment.setAttribute("onclick","")-->
+
+<!--            rateComment.appendChild(likeComment)-->
+<!--            rateComment.appendChild(reportComment)-->
+
+<!--            comment.appendChild(rateComment)-->
+
+<!--            document.getElementById("voting").appendChild(comment)-->
+
+<!--            delete comment;-->
+<!--            delete rateComment;-->
+<!--            delete avatarCommentUser;-->
+<!--            delete username;-->
+<!--            delete usernameText;-->
+<!--            delete commentText;-->
+<!--            delete CommentTextContent;-->
+<!--            delete likeComment;-->
+<!--            delete reportComment;-->
+<!--        };-->
+
+<!--    </script>-->
+{% endblock %}
